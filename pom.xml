@@ -140,7 +140,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
                   <skipInvocation>${skip.it.java.issues}</skipInvocation>
                   <ignoreFailures>ignoreFailures.java.issues</ignoreFailures>
                   <projectsDirectory>issues</projectsDirectory>
-                  <invokerTest>bas01,bas02,issue-7-#1</invokerTest>
+                  <invokerTest>bas01,bas02,bas03,issue-7-#1</invokerTest>
                 </configuration>
               </execution>
 

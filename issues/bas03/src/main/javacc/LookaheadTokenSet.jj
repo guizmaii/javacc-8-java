@@ -1,0 +1,205 @@
+/*
+ * Copyright (c) 2020-2025, Sreeni Viswanadha <sreeni@viswanadha.net>.
+ * Copyright (c) 2024-2025, Marc Mazas <mazas.marc@gmail.com>.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *     * Redistributions of source code must retain the above copyright notice,
+ *       this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the names of the copyright holders nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+options
+{
+//  STATIC = false;
+}
+
+PARSER_BEGIN(LookaheadTokenSet)
+package lts;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.PrintStream;
+
+/**
+ * A syntactic lookahead over a choice of single tokens (Name) scans it with one bit set lookup;
+ * the kinds of its tokens lie on both sides of 64, so the bit set spans two longs.
+ */
+public class LookaheadTokenSet {
+
+  public static void main(String args[]) {
+    if (args.length != 3) {
+      System.err.println("Error: invalid number of arguments (" + args.length + ")");
+      System.err.println("Usage: LookaheadTokenSet inputfile outputfile errorfile");
+      System.exit(4);
+    }
+    String fn = null;
+    InputStream stdInput  = null;
+    PrintStream stdOutput = null;
+    PrintStream stdError  = null;
+    try {
+      // open files and redirect standard streams to them
+      fn = "input";
+      stdInput = System.in;
+      System.setIn(new FileInputStream(args[0]));
+      fn = "output";
+      stdOutput = System.out;
+      System.setOut(new PrintStream(args[1]));
+      fn = "error";
+      stdError  = System.err;
+      System.setErr(new PrintStream(args[2]));
+      // parse
+      LookaheadTokenSet parser = new LookaheadTokenSet(System.in);
+      parser.Input();
+      System.err.println("Input file parsed successfully");
+    } catch (FileNotFoundException e) {
+      System.err.println("FileNotFoundException opening " + fn + " file");
+      System.err.println(e.getMessage());
+    } catch (ParseException e) {
+      System.err.println("ParseException parsing input file");
+      System.err.println(e.getMessage());
+    } catch (Exception e) {
+      System.err.println("Exception parsing input file");
+      System.err.println(e.getMessage());
+    } catch (Error e) {
+      System.err.println("Error parsing input file");
+      System.err.println(e.getMessage());
+    } finally {
+      // restore standard streams
+      if (stdInput  != null) System.setIn(stdInput);
+      if (stdOutput != null) System.setOut(stdOutput);
+      if (stdError  != null) System.setErr(stdError);
+    }
+  }
+
+}
+PARSER_END(LookaheadTokenSet)
+
+SKIP : { " " | "\t" | "\n" | "\r" }
+
+TOKEN :
+{
+  < ALPHA : "alpha" >
+| < BETA : "beta" >
+| < EQ : "=" >
+| < INTEGER : ( ["0"-"9"] )+ >
+}
+
+// fillers pushing the next tokens' kinds past 63
+TOKEN :
+{
+< F00 : "f00" >
+| < F01 : "f01" >
+| < F02 : "f02" >
+| < F03 : "f03" >
+| < F04 : "f04" >
+| < F05 : "f05" >
+| < F06 : "f06" >
+| < F07 : "f07" >
+| < F08 : "f08" >
+| < F09 : "f09" >
+| < F10 : "f10" >
+| < F11 : "f11" >
+| < F12 : "f12" >
+| < F13 : "f13" >
+| < F14 : "f14" >
+| < F15 : "f15" >
+| < F16 : "f16" >
+| < F17 : "f17" >
+| < F18 : "f18" >
+| < F19 : "f19" >
+| < F20 : "f20" >
+| < F21 : "f21" >
+| < F22 : "f22" >
+| < F23 : "f23" >
+| < F24 : "f24" >
+| < F25 : "f25" >
+| < F26 : "f26" >
+| < F27 : "f27" >
+| < F28 : "f28" >
+| < F29 : "f29" >
+| < F30 : "f30" >
+| < F31 : "f31" >
+| < F32 : "f32" >
+| < F33 : "f33" >
+| < F34 : "f34" >
+| < F35 : "f35" >
+| < F36 : "f36" >
+| < F37 : "f37" >
+| < F38 : "f38" >
+| < F39 : "f39" >
+| < F40 : "f40" >
+| < F41 : "f41" >
+| < F42 : "f42" >
+| < F43 : "f43" >
+| < F44 : "f44" >
+| < F45 : "f45" >
+| < F46 : "f46" >
+| < F47 : "f47" >
+| < F48 : "f48" >
+| < F49 : "f49" >
+| < F50 : "f50" >
+| < F51 : "f51" >
+| < F52 : "f52" >
+| < F53 : "f53" >
+| < F54 : "f54" >
+| < F55 : "f55" >
+| < F56 : "f56" >
+| < F57 : "f57" >
+| < F58 : "f58" >
+| < F59 : "f59" >
+| < F60 : "f60" >
+| < F61 : "f61" >
+| < F62 : "f62" >
+| < F63 : "f63" >
+}
+
+TOKEN :
+{
+  < GAMMA : "gamma" >
+| < DELTA : "delta" >
+| < Id : ["a"-"z", "A"-"Z"] ( ["a"-"z", "A"-"Z", "0"-"9"] )* >
+}
+
+void Input() :
+{}
+{
+  ( Item() )*
+  <EOF>
+}
+
+void Item() :
+{ String n, m; }
+{
+  LOOKAHEAD(Name() <EQ> Name())
+  n = Name() <EQ> m = Name() { System.out.println("alias " + n + " of " + m); }
+| LOOKAHEAD(2)
+  n = Name() <EQ> <INTEGER> { System.out.println("assignment to " + n); }
+| n = Name() { System.out.println("name " + n); }
+}
+
+String Name() :
+{ Token t; }
+{
+  ( t = <ALPHA> | t = <BETA> | t = <GAMMA> | t = <DELTA> | t = <Id> )
+  { return t.image; }
+}

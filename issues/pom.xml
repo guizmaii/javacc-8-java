@@ -48,6 +48,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   <modules>
     <module>bas01</module>
     <module>bas02</module>
+    <module>bas03</module>
     <module>issue-7-#1</module>
   </modules>
 
@@ -60,6 +61,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <properties>
         <skip.test.java.issues.bas01>true</skip.test.java.issues.bas01>
         <skip.test.java.issues.bas02>true</skip.test.java.issues.bas02>
+        <skip.test.java.issues.bas03>true</skip.test.java.issues.bas03>
         <skip.test.java.issues.issue-7-n1>true</skip.test.java.issues.issue-7-n1>
       </properties>
     </profile>
@@ -70,6 +72,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <properties>
         <failOnError.check.java.issues.bas01>false</failOnError.check.java.issues.bas01>
         <failOnError.check.java.issues.bas02>false</failOnError.check.java.issues.bas02>
+        <failOnError.check.java.issues.bas03>false</failOnError.check.java.issues.bas03>
         <failOnError.check.java.issues.issue-7-n1>false</failOnError.check.java.issues.issue-7-n1>
       </properties>
     </profile>
